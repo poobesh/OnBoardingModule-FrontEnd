@@ -6,8 +6,17 @@
             <h5 class="card-title text-center">Sign In</h5>
 
 
-            <div *ngIf="disable;then thenBlock else elseBlock"> </div>
+            <div *ngIf="isLoggedIn() ; then thenBlock else elseBlock"> </div>
             <ng-template #thenBlock>
+                <div class="facebook text-center mr-3" >
+                            <div class="fa fa-google-plus">
+                              <button class="btn btn-primary" (click)="nextPage()"  >
+                                Continue
+                              </button>
+                            </div>
+                </div>
+            </ng-template>
+			<ng-template #elseBlock>
             <form class="form-signin">
               <div class="form-label-group">
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
@@ -27,18 +36,10 @@
               </form>
             </ng-template>
 
-            <ng-template #elseBlock>
-                <div class="facebook text-center mr-3" >
-                            <div class="fa fa-google-plus">
-                              <button class="btn btn-primary" (click)="nextPage()" [disabled] = "disable"  >
-                                Continue
-                              </button>
-                            </div>
-                </div>
-            </ng-template>
+            
 
                 <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" (click)="signInWithGoogle()" [disabled]="!disable"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
+              <button class="btn btn-lg btn-google btn-block text-uppercase" (click)="signInWithGoogle()" [disabled]="isLoggedIn()"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
               <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
             
           </div>

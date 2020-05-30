@@ -1,1 +1,46 @@
-<p>view works!</p>
+<div class="sidenav">
+    <a routerLink="/home">About</a>
+    <a routerLink = "/employee/view"> View </a>
+    <a routerLink = "/data">Data Trend</a>
+    <a (click)="signOut()"> Log Out</a>
+</div>
+  <div class="main">
+    
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Employee <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new" routerLink="/employee/create"><i class="fa fa-plus"></i> Add New</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>Designation</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+				
+                    <tr *ngFor ="let x of employee" >
+                        <td>{{x["id"]}}</td>
+                        <td>{{x["first_name"]}}</td>
+                        <td>{{x["designation"]}}</td>
+                        <td>
+							
+                            <a class="edit" title="Edit" data-toggle="tooltip" [routerLink]="['/employee/edit', x['id'] ]" ><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+				    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>

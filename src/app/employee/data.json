@@ -1,0 +1,25 @@
+[
+    {
+        "id": 123,
+        "email": "rohitkumar123@gmail.com",
+        "version": 0,
+        "first_name": "Rohit",
+        "last_name": "Kumar",
+        "dob": "2020-05-04",
+        "blood_type": "O+ve",
+        "gender": "Male",
+        "date_of_joining": "2020-05-01",
+        "permanent_address": "NO",
+        "pan_number": "DHJ76846",
+        "skill_id": 10,
+        "experience": 0,
+        "phone_number": 9876543210,
+        "current_address": "Edited + Edited Address",
+        "designation": "SDE",
+        "bank_ac_no": 1234567890,
+        "demand_id": "0",
+        "bgc": true,
+        "c_pincode": 600022,
+        "p_pincode": 69699
+    }
+]

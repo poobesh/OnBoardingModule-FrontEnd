@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { RouterModule} from '@angular/router';
 import {  routes } from "./app-routing.module";
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from "angularx-social-login";
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LogoutComponent } from './logout/logout.component';
+import { EmployeeServices } from './employee/employee.services';
 
 let config = new AuthServiceConfig([
   {
@@ -25,18 +27,23 @@ export function provideConfig(){
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
     SocialLoginModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes ),
+    BrowserAnimationsModule,
+    HttpClientModule,
+	
   ],
   providers: [
     {
       provide:AuthServiceConfig,
       useFactory: provideConfig
-    }
+    },
+	EmployeeServices
   ],
   bootstrap: [AppComponent]
 })

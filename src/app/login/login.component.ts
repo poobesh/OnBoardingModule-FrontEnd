@@ -11,36 +11,47 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   private user:SocialUser;
-  private loggedIn:boolean ;
-  public disable:boolean = true;
+  public loggedIn:boolean =false;
+  
 
-  constructor( private route : Router ,private authService: AuthService ) { }
+  constructor( private route : Router ,private authService: AuthService ) {
+    	  }
 
   ngOnInit(): void {
     console.log("Logged In User "+ localStorage.getItem('user_email'));
-    if(localStorage.getItem('user_email') != null){
-         this.disable = false;
+	console.log("LoggedIn -1  "+ this.loggedIn );
+    if(localStorage.getItem('user_email')){
          this.loggedIn = true;
         }
+		else{
+			this.loggedIn = false;
+		}
+		console.log("LoggedIn -2  "+ this.loggedIn );
+	
   }
+  
   signInWithGoogle() {
     console.log("Inside Sign in with google");
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user) =>{
     this.user = user;
     this.loggedIn=(user != null);
     localStorage.setItem('user_email',user.email)
-    if(user != null){
-       this.disable = false;
-       }
+    
     });
   }
     signOut(): void {
-      localStorage.setItem('user_email',null);
+      localStorage.removeItem('user_email');
       this.authService.signOut();
+	    this.route.navigate(['']);
+	    this.loggedIn = false;
   
     }
+	
+	isLoggedIn(): boolean {
+		return this.loggedIn;
+	}
     nextPage(){
-      if(this.loggedIn){
+      if(localStorage.getItem('user_email') != null){
         console.log("IF "+ localStorage.getItem('user_email'));
         this.route.navigate(['/home']);
             }

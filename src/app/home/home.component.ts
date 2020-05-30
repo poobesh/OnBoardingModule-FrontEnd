@@ -16,9 +16,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
   signOut(): void {
-    localStorage.setItem('user_email',null);
+    localStorage.removeItem('user_email');
     this.authService.signOut();
-    this.routes.navigate(['']);
+	console.log(localStorage.getItem('user_email'));
+    this.routes.navigate(['logout']);
 
   }
 
