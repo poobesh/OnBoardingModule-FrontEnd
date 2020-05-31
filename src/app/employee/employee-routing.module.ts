@@ -5,7 +5,6 @@ import { CreateComponent } from './create/create.component';
 import { EditComponent } from './view/edit/edit.component';
 import { DeleteComponent } from './view/delete/delete.component';
 import  { LogoutComponent } from '../logout/logout.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path:'',component:ViewComponent},
@@ -17,7 +16,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forChild(routes), FormsModule, ReactiveFormsModule],
+  imports: [RouterModule.forChild(routes)],
 	exports: [RouterModule]
 })
 export class EmployeeRoutingModule { }

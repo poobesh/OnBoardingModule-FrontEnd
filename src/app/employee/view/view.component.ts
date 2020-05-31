@@ -12,8 +12,9 @@ import { Employee } from '../employee';
 })
 export class ViewComponent implements OnInit {
 
-  
+  public deleteId : any;
   public employee : Employee[] ;
+  searchText:string;
   
   constructor(private authService: AuthService, private routes : Router , private service : EmployeeServices ) { }
 
@@ -41,6 +42,21 @@ export class ViewComponent implements OnInit {
 	  {
 		  console.log(this.employee[x]["id"]);
 	  }
+  }
+  
+  onDelete(){
+	  this.service.deleteEmployee(this.deleteId)
+      .subscribe((data) => {
+	  console.log("Deleted Successfully");
+	  
+	  });
+	  
+  }
+  setDeleteId(id){
+	  this.deleteId = id;
+  }
+  removeDeleteId(){
+	  this.deleteId = null;
   }
 
   showEmployee() {

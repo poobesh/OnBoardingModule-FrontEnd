@@ -1,13 +1,13 @@
 <div class="sidenav">
     <a routerLink="/home">About</a>
-    <a routerLink = "/employee"> View </a>
+    <a routerLink = "/employee" > View </a>
     <a routerLink = "/data">Data Trend</a>
     <a (click)="signOut()"> Log Out</a>
 </div>
   
   <div class="main">
     <div class="container">
-    <h1>Create Component</h1>
+    <h1>Create Employee</h1>
   	<hr>
 	<div class="row">
       <!-- left column -->
@@ -15,77 +15,263 @@
       
       <!-- edit form column -->
       <div class="col-md-9 personal-info">
-        <div class="alert alert-info alert-dismissable">
-          <a class="panel-close close" data-dismiss="alert">×</a> 
-          <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. Use this to show important messages to the user.
-        </div>
+        
         <h3>Personal info</h3>
         
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
+        <form class="form-horizontal" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" >   <!-- Employee ID -->
+		<div class="form-group">
+            <label class="col-lg-3 control-label">Employee Id:</label>
+            <div class="col-lg-8">
+              <input class="form-control" formControlName="id" (change)="isIdVaild()" type="number" >
+	          <div *ngIf="isFormInValid && (employeeForm.get('id').dirty || employeeForm.get('id').touched)" class="alert alert-danger">
+               Id is already taken please choose different id .
+               </div> 
+            </div>
+          </div>
+		  <div class="form-group">
             <label class="col-lg-3 control-label">First name:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="Jane">
+              <input class="form-control" formControlName="first_name" type="text"  >
+              <div *ngIf="employeeForm.get('first_name').invalid && (employeeForm.get('first_name').dirty || employeeForm.get('first_name').touched)" class="alert alert-danger">
+                First_name should be less than 15 letters .
+               </div>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Last name:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="Bishop">
+              <input class="form-control" formControlName="last_name" type="text" >
+              <div *ngIf="employeeForm.get('last_name').invalid && (employeeForm.get('last_name').dirty || employeeForm.get('last_name').touched)" class="alert alert-danger">
+                Last_name should be less than 15 letters .
+               </div>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Company:</label>
-            <div class="col-lg-8">
-              <input class="form-control" type="text" value="">
-            </div>
-          </div>
-          <div class="form-group">
+		  <div class="form-group">
             <label class="col-lg-3 control-label">Email:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="janesemail@gmail.com">
+              <input class="form-control" formControlName="email" type="email" >
+              <div *ngIf="employeeForm.get('email').invalid && (employeeForm.get('email').dirty || employeeForm.get('email').touched)" class="alert alert-danger">
+               Enter valid email and it should have less than 50 letters.  
+               </div>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Time Zone:</label>
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label" for="dob">DOB:</label>
             <div class="col-lg-8">
-              <div class="ui-select">
-                <select id="user_time_zone" class="form-control">
-                  <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                  <option value="Alaska">(GMT-09:00) Alaska</option>
-                  <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                  <option value="Arizona">(GMT-07:00) Arizona</option>
-                  <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                  <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
-                  <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                  <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-                </select>
+              <input type="date" id="dob" formControlName="dob"  (change)="onChange()" >
+              <div *ngIf="employeeForm.get('dob').invalid && (employeeForm.get('dob').dirty || employeeForm.get('dob').touched)" class="alert alert-danger">
+                This field is required
               </div>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Username:</label>
-            <div class="col-md-8">
-              <input class="form-control" type="text" value="janeuser">
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Blood Type :</label>
+            <div class="col-lg-8">
+              <input class="form-control" formControlName="blood_type" type="text" >
+              <div *ngIf="employeeForm.get('blood_type').invalid && (employeeForm.get('blood_type').dirty || employeeForm.get('blood_type').touched)" class="alert alert-danger">
+                Required and less than 5 letters.
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Gender :</label>
+            <div class="col-lg-8">
+              <input type="radio" id="male" formControlName="gender" value="male">
+			  <label for="male">Male</label>
+			  <input type="radio" id="female" formControlName="gender" value="female">
+        <label for="female">Female</label>
+        <div *ngIf="employeeForm.get('gender').invalid && (employeeForm.get('gender').dirty || employeeForm.get('gender').touched)" class="alert alert-danger">
+              This field is required.  
+        </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label" for="dob">Date Of Joining:</label>
+            <div class="col-lg-8">
+              <input type="date" id="date_of_joining" formControlName="date_of_joining">
+              <div *ngIf="employeeForm.get('date_of_joining').invalid && (employeeForm.get('date_of_joining').dirty || employeeForm.get('date_of_joining').touched)" class="alert alert-danger">
+                This field is required.
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Permanent Address :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="permanent_address" >
+              <div *ngIf="employeeForm.get('permanent_address').invalid && (employeeForm.get('permanent_address').dirty || employeeForm.get('permanent_address').touched)" class="alert alert-danger">
+                This field is required.
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Pincode :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="p_pincode" >
+              <div *ngIf="employeeForm.get('p_pincode').invalid && (employeeForm.get('p_pincode').dirty || employeeForm.get('p_pincode').touched)" class="alert alert-danger">
+                This field is required.
+              </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Pan Number :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="pan_number" >
+              <div *ngIf="employeeForm.get('pan_number').invalid && (employeeForm.get('pan_number').dirty || employeeForm.get('pan_number').touched)" class="alert alert-danger">
+                This field is required and should have 10 letters.
+              </div>
+            </div>
+          </div>
+		  	  
+		  
+		  <div class="form-group">                               
+			  <label class="col-lg-3 control-label" for="skill-1">Skill - 1 : </label>
+			  
+			  <div class="col-lg-8">
+			    <select class="form-control" id="skill-1" formControlName="skill_1" required>
+				<option *ngFor="let skill of skills" [value]="skill">{{skill}}</option>
+        </select>
+        <div *ngIf="employeeForm.get('skill_1').invalid && (employeeForm.get('skill_1').dirty || employeeForm.get('skill_1').touched)" class="alert alert-danger">
+                This field is required.
+        </div>
+			  </div>
+			</div> 
+			<div class="form-group">                               
+			  <label class="col-lg-3 control-label" for="skill-2">Skill - 2 : </label>
+			  
+			  <div class="col-lg-8">
+			    <select class="form-control" id="skill-2" formControlName="skill_2" required>
+				<option *ngFor="let skill of skills" [value]="skill">{{skill}}</option>
+        </select>
+        <div *ngIf="employeeForm.get('skill_2').invalid && (employeeForm.get('skill_2').dirty || employeeForm.get('skill_2').touched)" class="alert alert-danger">
+          This field is required.
+  </div>
+			  </div>
+			</div> 
+			<div class="form-group">                               
+			  <label class="col-lg-3 control-label" for="skill-3">Skill - 3 : </label>
+			  
+			  <div class="col-lg-8">
+			    <select class="form-control" id="skill-3" formControlName="skill_3" required>
+				<option *ngFor="let skill of skills" [value]="skill">{{skill}}</option>
+        </select>
+        <div *ngIf="employeeForm.get('skill_3').invalid && (employeeForm.get('skill_3').dirty || employeeForm.get('skill_3').touched)" class="alert alert-danger">
+          This field is required.
+  </div>
+			  </div>
+			</div> 
+			
+			<div class="form-group">
+            <label class="col-lg-3 control-label">Experience in years :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="number" formControlName="experience" >
+              <div *ngIf="employeeForm.get('experience').invalid && (employeeForm.get('experience').dirty || employeeForm.get('experience').touched)" class="alert alert-danger">
+                This field should be greater than or equal to 0 .
+        </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Phone Number :</label>
+            <div class="col-lg-8">
+             <input type="tel" class="form-control" formControlName="phone_number" placeholder="9876543210">
+             <div *ngIf="employeeForm.get('phone_number').invalid && (employeeForm.get('phone_number').dirty || employeeForm.get('phone_number').touched)" class="alert alert-danger">
+              Enter valid mobile number.
+      </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Password:</label>
-            <div class="col-md-8">
-              <input class="form-control" type="password" value="11111122333">
+            <label class="col-lg-3 control-label">Current Address :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="current_address" >
+              <div *ngIf="employeeForm.get('current_address').invalid && (employeeForm.get('current_address').dirty || employeeForm.get('current_address').touched)" class="alert alert-danger">
+                This field is required.
+        </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Pincode :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="c_pincode" >
+                <div *ngIf="employeeForm.get('c_pincode').invalid && (employeeForm.get('c_pincode').dirty || employeeForm.get('c_pincode').touched)" class="alert alert-danger">
+                  This field is required.
+                </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Confirm password:</label>
-            <div class="col-md-8">
-              <input class="form-control" type="password" value="11111122333">
+            <label class="col-lg-3 control-label">BGC Status :</label>
+            <div class="col-lg-8">
+              <input type="radio" id="clear" formControlName="bgc" value="true">
+              <label for="clear">Clear</label>
+              <input type="radio" id="not-clear" formControlName="bgc" value="false">
+              <label for="not-clear">Not Clear</label>
+              <div *ngIf="employeeForm.get('bgc').invalid && (employeeForm.get('bgc').dirty || employeeForm.get('bgc').touched)" class="alert alert-danger">
+                This field is required.
+              </div>
             </div>
           </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Designation :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="designation" >
+              <div *ngIf="employeeForm.get('designation').invalid && (employeeForm.get('designation').dirty || employeeForm.get('designation').touched)" class="alert alert-danger">
+                This field is required.
+              </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Bank Account Number :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="bank_ac_no" >
+              <div *ngIf="employeeForm.get('bank_ac_no').invalid && (employeeForm.get('bank_ac_no').dirty || employeeForm.get('bank_ac_no').touched)" class="alert alert-danger">
+                This field is required and digits should have 8 to 15 digits.
+              </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">IFSC Code :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="ifsc_code" >
+              <div *ngIf="employeeForm.get('ifsc_code').invalid && (employeeForm.get('ifsc_code').dirty || employeeForm.get('ifsc_code').touched)" class="alert alert-danger">
+                Should contain 10 Characters.
+              </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Branch :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="branch" >
+              <div *ngIf="employeeForm.get('branch').invalid && (employeeForm.get('branch').dirty || employeeForm.get('branch').touched)" class="alert alert-danger">
+                Enter valid branch name.
+              </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Name :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="name" >
+              <div *ngIf="employeeForm.get('name').invalid && (employeeForm.get('name').dirty || employeeForm.get('name').touched)" class="alert alert-danger">
+                Enter valid name should be less than 30 letters.
+              </div>
+            </div>
+          </div>
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Demand Id :</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="demand_id" >
+
+            </div>
+          </div>
+		 
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-              <input type="button" class="btn btn-primary" value="Save Changes">
+              <input type="submit" class="btn btn-primary" value="Save Changes" [disabled]="!employeeForm.valid">
               <span></span>
               <input type="reset" class="btn btn-default" value="Cancel">
             </div>

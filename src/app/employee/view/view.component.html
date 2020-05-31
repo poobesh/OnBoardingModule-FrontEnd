@@ -1,11 +1,13 @@
 <div class="sidenav">
     <a routerLink="/home">About</a>
-    <a routerLink = "/employee/view"> View </a>
+    <a routerLink = "/employee" > View </a>
     <a routerLink = "/data">Data Trend</a>
     <a (click)="signOut()"> Log Out</a>
 </div>
   <div class="main">
-    
+    <div class="search-hero">
+      <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching  by id or name or email">
+    </div>
 
     <div class="container">
         <div class="table-wrapper">
@@ -28,14 +30,32 @@
                 </thead>
                 <tbody>
 				
-                    <tr *ngFor ="let x of employee" >
+                    <tr *ngFor ="let x of employee | filter:searchText" >
                         <td>{{x["id"]}}</td>
                         <td>{{x["first_name"]}}</td>
                         <td>{{x["designation"]}}</td>
                         <td>
-							
                             <a class="edit" title="Edit" data-toggle="tooltip" [routerLink]="['/employee/edit', x['id'] ]" ><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+
+							<a class="delete" title="Delete"  data-toggle="modal" data-target="#myModal" (click)="setDeleteId(x['id'])"><i class="material-icons">&#xE872;</i></a>
+                            				<div class="modal fade" id="myModal">
+												<div class="modal-dialog modal-dialog-centered">
+												  <div class="modal-content">
+												 <div class="modal-header">
+													  <h4 class="modal-title">Confirmation ! </h4>
+													  <button type="button" class="close" data-dismiss="modal">&times;</button>
+													</div>
+													<div class="modal-body">
+													  Are you sure want to delete ? {{deleteId}}
+													</div>
+													<div class="modal-footer">
+													  <button type="button" class="btn btn-danger" (click)="onDelete()" data-dismiss="modal">ok Delete {{deleteId}}</button>
+													  <button type="button" class="btn btn-secondary" (click)="removeDeleteId()" data-dismiss="modal">Close</button>
+													</div>
+													
+												  </div>
+												</div>
+												</div>
                         </td>
                     </tr>
 				    

@@ -12,6 +12,8 @@ import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from "angul
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutComponent } from './logout/logout.component';
 import { EmployeeServices } from './employee/employee.services';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
+
 
 let config = new AuthServiceConfig([
   {
@@ -36,14 +38,15 @@ export function provideConfig(){
     RouterModule.forRoot(routes ),
     BrowserAnimationsModule,
     HttpClientModule,
-	
+	  FormsModule,
+	  ReactiveFormsModule,
   ],
   providers: [
     {
       provide:AuthServiceConfig,
       useFactory: provideConfig
     },
-	EmployeeServices
+	  EmployeeServices
   ],
   bootstrap: [AppComponent]
 })
