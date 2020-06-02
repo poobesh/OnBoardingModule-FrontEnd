@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormsModule ,FormGroup,  Validators , FormBuilder , FormControl} from '@angular/forms';
 import { Employee } from '../employee';
 import { EmployeeServices } from '../employee.services';
+import { IDemand } from '../models/IDemand';
 
 @Component({
   selector: 'app-create',
@@ -14,9 +15,13 @@ import { EmployeeServices } from '../employee.services';
 export class CreateComponent implements OnInit {
 	
 	public skills=["Angular","Java","C/c++","Python","SQL"];
+	public skill_1_MatchingDemands : IDemand[];
+	public skill_2_MatchingDemands : IDemand[];
+	public skill_3_MatchingDemands : IDemand[]
+	private demandSkills : IDemand[];
 	public employeeForm:FormGroup;
 	public name = "Poobesh";
-	private Ids : number[]=[0];
+	private Ids : number[]=[];
 	public isFormInValid:boolean = true;
     private employees:Employee[];
 	private employee:any;
@@ -41,7 +46,7 @@ export class CreateComponent implements OnInit {
 		skill_1:['',[Validators.required]],
 		skill_2:['',[Validators.required]],
 		skill_3:['',[Validators.required]],
-		experience: ['',[Validators.required,Validators.pattern('^[0-9][0-9]')]],
+		experience: ['',[Validators.required,Validators.pattern('^[0-9]*')]],
 		phone_number: ['',[Validators.required, Validators.pattern('[6-9]\\d{9}')]],
 		current_address: ['',Validators.required],
 		designation: ['',[Validators.required,Validators.maxLength(20)]],
@@ -49,7 +54,7 @@ export class CreateComponent implements OnInit {
 		ifsc_code:['',[Validators.required,Validators.maxLength(10)]],
 		branch:['',[Validators.required,Validators.maxLength(30)]],
 		name:['',[Validators.required,Validators.maxLength(30)]],
-		demand_id: [''],
+		demand_id: [],
 		bgc: ['',Validators.required],
 		c_pincode: ['',Validators.required],
 		p_pincode:['',Validators.required] 
@@ -59,6 +64,10 @@ export class CreateComponent implements OnInit {
 	  //console.log("GET Value : "+data["id"])
 	  this.Ids = data.map(({ id }) => id);
 	  });
+	this.service.getDemands()
+	  			.subscribe((demand) => {
+					  this.demandSkills = demand;
+				  });
 
 		console.warn(this.Ids);
   }
@@ -82,9 +91,28 @@ export class CreateComponent implements OnInit {
 	  }
   }
   
-  onChange(): void{
-    console.warn(this.employeeForm);
+  onChange(){
+	  console.warn(this.employeeForm);
   }
+  
+  onChangeSkill_1(): void{
+	  this.skill_1_MatchingDemands = this.demandSkills.filter(
+		  demand => demand.demandSkill === this.employeeForm.get('skill_1').value
+		  );
+    console.warn(this.skill_1_MatchingDemands);
+  }
+  onChangeSkill_2(): void{
+		this.skill_2_MatchingDemands = this.demandSkills.filter(
+			demand => demand.demandSkill === this.employeeForm.get('skill_2').value
+			);
+	console.warn(this.skill_2_MatchingDemands);
+	}
+	onChangeSkill_3(): void{
+		this.skill_3_MatchingDemands = this.demandSkills.filter(
+			demand => demand.demandSkill === this.employeeForm.get('skill_3').value
+			);
+	console.warn(this.skill_3_MatchingDemands);
+	}
   
   setEmployee(){
 	  this.employee = {

@@ -18,20 +18,19 @@ export class LoginComponent implements OnInit {
     	  }
 
   ngOnInit(): void {
-    console.log("Logged In User "+ localStorage.getItem('user_email'));
-	console.log("LoggedIn -1  "+ this.loggedIn );
+    
     if(localStorage.getItem('user_email')){
          this.loggedIn = true;
         }
 		else{
 			this.loggedIn = false;
 		}
-		console.log("LoggedIn -2  "+ this.loggedIn );
+		
 	
   }
   
   signInWithGoogle() {
-    console.log("Inside Sign in with google");
+    
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user) =>{
     this.user = user;
     this.loggedIn=(user != null);
@@ -40,7 +39,7 @@ export class LoginComponent implements OnInit {
     });
   }
     signOut(): void {
-      localStorage.removeItem('user_email');
+      
       this.authService.signOut();
 	    this.route.navigate(['']);
 	    this.loggedIn = false;
@@ -52,12 +51,12 @@ export class LoginComponent implements OnInit {
 	}
     nextPage(){
       if(localStorage.getItem('user_email') != null){
-        console.log("IF "+ localStorage.getItem('user_email'));
+        
         this.route.navigate(['/home']);
             }
             else
             {
-            console.log("ELsE"+ localStorage.getItem('user_email'));
+            
               this.route.navigate(['']);
             }
       

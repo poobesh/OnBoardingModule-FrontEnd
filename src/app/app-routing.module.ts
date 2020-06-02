@@ -8,11 +8,10 @@ import { LoginComponent } from './login/login.component';
 import { ViewComponent } from './employee/view/view.component';
 import { CreateComponent } from './employee/create/create.component';
 import { EditComponent } from './employee/view/edit/edit.component';
-import { DeleteComponent } from './employee/view/delete/delete.component';
 import  { LogoutComponent } from './logout/logout.component';
 export const routes: Routes = [
   {path:'home',component:HomeComponent , canActivate: [AuthGuard] },
-  {path:'employee',loadChildren: ()=> import ('./employee/employee.module').then(m => m.EmployeeModule),canActivate: [AuthGuard]},
+  {path:'employee',loadChildren: ()=> import ('./employee/employee.module').then(m => m.EmployeeModule)},
   {path:'logout',component:LogoutComponent },
   {path:'',component:LoginComponent}
 ];

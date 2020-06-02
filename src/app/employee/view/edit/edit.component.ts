@@ -6,7 +6,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { FormGroup,  Validators , FormBuilder , FormControl} from '@angular/forms';
 import { EmployeeServices } from '../../employee.services';
 import { Employee } from '../../employee';
-
+import { IDemand } from '../../models/IDemand';
 
 
 @Component({
@@ -18,9 +18,13 @@ export class EditComponent implements OnInit {
 
    employeeId : string;
    public skills=["Angular","Java","C/c++","Python","SQL"];
-   public employeeForm:FormGroup;
+   public skill_1_MatchingDemands : IDemand[];
+	public skill_2_MatchingDemands : IDemand[];
+	public skill_3_MatchingDemands : IDemand[]
+	private demandSkills : IDemand[];
+	public employeeForm:FormGroup;
    public name = "Poobesh";
-   private Ids : number[] = [1,2,3];
+   
    public isFormInValid:boolean = true;
    
    private employee:any;
@@ -89,6 +93,30 @@ export class EditComponent implements OnInit {
   onChange(): void{
     console.warn(this.employeeForm);
   }
+
+  onChangeSkill_1(): void{
+	this.skill_1_MatchingDemands = this.demandSkills.filter(
+		demand => demand.demandSkill === this.employeeForm.get('skill_1').value
+		);
+  console.warn(this.skill_1_MatchingDemands);
+}
+onChangeSkill_2(): void{
+	  this.skill_2_MatchingDemands = this.demandSkills.filter(
+		  demand => demand.demandSkill === this.employeeForm.get('skill_2').value
+		  );
+  console.warn(this.skill_2_MatchingDemands);
+  }
+  onChangeSkill_3(): void{
+	  this.skill_3_MatchingDemands = this.demandSkills.filter(
+		  demand => demand.demandSkill === this.employeeForm.get('skill_3').value
+		  );
+  console.warn(this.skill_3_MatchingDemands);
+  }
+
+
+
+
+
   setEmployee(){
 	this.employee = {
 	  'id': this.employeeForm.get('id').value,
@@ -119,9 +147,7 @@ export class EditComponent implements OnInit {
 	  'skill_3': this.employeeForm.get('skill_3').value
 };
 }
-  setUnChangeableValues(){
-
-  }
+  
 
 
 
