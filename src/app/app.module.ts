@@ -13,6 +13,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutComponent } from './logout/logout.component';
 import { EmployeeServices } from './employee/employee.services';
 import { FormsModule , ReactiveFormsModule} from '@angular/forms';
+import { TrendsComponent } from './trends/trends.component';
+import { ChartsModule } from 'ng2-charts';
+import { TrendsServices } from './trends/trends.service';
 
 
 let config = new AuthServiceConfig([
@@ -30,7 +33,8 @@ export function provideConfig(){
     AppComponent,
     LoginComponent,
     HomeComponent,
-    LogoutComponent
+    LogoutComponent,
+    TrendsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,15 +42,17 @@ export function provideConfig(){
     RouterModule.forRoot(routes ),
     BrowserAnimationsModule,
     HttpClientModule,
-	  FormsModule,
-	  ReactiveFormsModule,
+	FormsModule,
+	ReactiveFormsModule,
+	ChartsModule
   ],
   providers: [
     {
       provide:AuthServiceConfig,
       useFactory: provideConfig
     },
-	  EmployeeServices
+	  EmployeeServices,
+	  TrendsServices
   ],
   bootstrap: [AppComponent]
 })

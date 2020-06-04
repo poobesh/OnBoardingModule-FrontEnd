@@ -56,8 +56,8 @@ export class CreateComponent implements OnInit {
 		name:['',[Validators.required,Validators.maxLength(30)]],
 		demand_id: [],
 		bgc: ['',Validators.required],
-		c_pincode: ['',Validators.required],
-		p_pincode:['',Validators.required] 
+		c_pincode: ['',[Validators.required, Validators.pattern('[0-9]\\d{5}')]],
+		p_pincode:['',[Validators.required, Validators.pattern('[0-9]\\d{5}')]] 
    });
    this.service.getEmployees()
       .subscribe((data) => {
@@ -97,19 +97,19 @@ export class CreateComponent implements OnInit {
   
   onChangeSkill_1(): void{
 	  this.skill_1_MatchingDemands = this.demandSkills.filter(
-		  demand => demand.demandSkill === this.employeeForm.get('skill_1').value
+		  demand => demand.skill === this.employeeForm.get('skill_1').value
 		  );
     console.warn(this.skill_1_MatchingDemands);
   }
   onChangeSkill_2(): void{
 		this.skill_2_MatchingDemands = this.demandSkills.filter(
-			demand => demand.demandSkill === this.employeeForm.get('skill_2').value
+			demand => demand.skill === this.employeeForm.get('skill_2').value
 			);
 	console.warn(this.skill_2_MatchingDemands);
 	}
 	onChangeSkill_3(): void{
 		this.skill_3_MatchingDemands = this.demandSkills.filter(
-			demand => demand.demandSkill === this.employeeForm.get('skill_3').value
+			demand => demand.skill === this.employeeForm.get('skill_3').value
 			);
 	console.warn(this.skill_3_MatchingDemands);
 	}
@@ -153,7 +153,7 @@ export class CreateComponent implements OnInit {
 	
 	this.service
 		.addEmployee(this.employee)
-		.subscribe(hero => {console.log("Posted Employee + "+ this.employee);});
+		.subscribe(hero => {console.log("Posted Employee + "+ this.employee);alert("Successfully Added ");});
 		this.routes.navigate(['home']);
 
   }

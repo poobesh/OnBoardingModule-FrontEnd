@@ -28,7 +28,9 @@ export class EditComponent implements OnInit {
    public isFormInValid:boolean = true;
    
    private employee:any;
-  
+   private loading:boolean= true;
+   private error:boolean = true;
+
 
   constructor(private authService: AuthService, private routes : Router , private activatedRoute: ActivatedRoute , private service : EmployeeServices , private fb : FormBuilder) { 
      
@@ -39,35 +41,47 @@ export class EditComponent implements OnInit {
     this.service.getEmployee(this.employeeId)
       .subscribe((data) => {
 	  console.log("GET Value : "+ data["bgc"]);
-	  this.employeeForm = this.fb.group({
-		id: [data['id'],[Validators.required,Validators.minLength(3)]],
-		email:[data['email'],[Validators.required, Validators.email , Validators.maxLength(50)]] ,
+	  console.warn(data);
+	  
+	  this.employeeForm = this.fb.group({    
+		id: [{value: data['id'], disabled: true},[Validators.required]],
+		email:[{value: data['email'], disabled: true},[Validators.required, Validators.email , Validators.maxLength(50)]] ,
 		version: [data['version']],
-		first_name: [data['first_name'],[Validators.required,Validators.maxLength(15)]],
-		last_name: [data['last_name'],[Validators.required,Validators.maxLength(15)]],
-		dob: [data['dob'],[Validators.required]],
-		blood_type: [data['blood_type'],[Validators.required,Validators.maxLength(5)]],
-		gender: [data['gender'],Validators.required],
+		first_name: [{value: data['first_name'], disabled: true},[Validators.required,Validators.maxLength(15)]],
+		last_name: [{value: data['last_name'], disabled: true},[Validators.required,Validators.maxLength(15)]],
+		dob: [{value: data['dob'], disabled: true},[Validators.required]],
+		blood_type: [{value: data['blood_type'], disabled: true},[Validators.required,Validators.maxLength(5)]],
+		gender: [{value: data['gender'], disabled: true}],
 		date_of_joining: [data['date_of_joining'],Validators.required],
-		permanent_address: [data['permanent_address'],[Validators.required,Validators.maxLength(50)]],
-		pan_number: [data['pan_number'],[Validators.required,Validators.maxLength(10),Validators.minLength(10)]],
+		permanent_address: [{value: data['permanent_address'], disabled: true}],
+		p_pincode:[{value: data['p_pincode'], disabled: true}] ,
+		pan_number: [{value: data['pan_number'], disabled: true}],
 		skill_1:[data['skill_1'],[Validators.required]],
 		skill_2:[data['skill_2'],[Validators.required]],
 		skill_3:[data['skill_3'],[Validators.required]],
 		experience: [data['experience'],[Validators.required,Validators.pattern('^[0-9]')]],
 		phone_number: [data['phone_number'],[Validators.required, Validators.pattern('[6-9]\\d{9}')]],
 		current_address: [data['current_address'],Validators.required],
+		c_pincode: [data['c_pincode'],[Validators.required, Validators.pattern('[0-9]\\d{5}')]],
 		designation: [data['designation'],[Validators.required,Validators.maxLength(20)]],
-		bank_ac_no: [data['bank_ac_no'],[Validators.required,Validators.minLength(8),Validators.maxLength(15)]],
-		ifsc_code:[data['ifsc_code'],[Validators.required,Validators.maxLength(10)]],
-		branch:[data['branch'],[Validators.required,Validators.maxLength(30)]],
-		name:[data['name'],[Validators.required,Validators.maxLength(30)]],
-		demand_id: [data['demand_id']],
-		bgc: [data['bgc'],Validators.required],
-		c_pincode: [data['c_pincode'],Validators.required],
-		p_pincode:[data['p_pincode'],Validators.required] 
+		bank_ac_no: [{value: data['bank_ac_no'], disabled: true}],
+		ifsc_code:[{value: data['ifsc_code'], disabled: true}],
+		branch:[{value: data['branch'], disabled: true}],
+		name:[{value: data['name'], disabled: true}],
+		demand_id: [data['demand_id'],Validators.required],
+		bgc: [data['bgc'],Validators.required]
+		
+		
+		
    });
-	  });
+	  }
+	  );
+	  
+	this.service.getDemands()
+	  			.subscribe((demand) => {
+					  this.demandSkills = demand;
+					  this.loading = false;
+				  });
 	    
 	
   }
@@ -80,7 +94,8 @@ export class EditComponent implements OnInit {
 	
 	this.service
 		.updateEmployee(this.employee,this.employeeId)
-		.subscribe(hero => {console.log("Updated Employee + "+ this.employee);});
+		.subscribe(hero => {console.log("Updated Employee + "+ this.employee);alert("Successfully Added ");});
+		
 		this.routes.navigate(['home']);
   }
   signOut(): void {
@@ -96,19 +111,19 @@ export class EditComponent implements OnInit {
 
   onChangeSkill_1(): void{
 	this.skill_1_MatchingDemands = this.demandSkills.filter(
-		demand => demand.demandSkill === this.employeeForm.get('skill_1').value
+		demand => demand.skill === this.employeeForm.get('skill_1').value
 		);
   console.warn(this.skill_1_MatchingDemands);
 }
 onChangeSkill_2(): void{
 	  this.skill_2_MatchingDemands = this.demandSkills.filter(
-		  demand => demand.demandSkill === this.employeeForm.get('skill_2').value
+		  demand => demand.skill === this.employeeForm.get('skill_2').value
 		  );
   console.warn(this.skill_2_MatchingDemands);
   }
   onChangeSkill_3(): void{
 	  this.skill_3_MatchingDemands = this.demandSkills.filter(
-		  demand => demand.demandSkill === this.employeeForm.get('skill_3').value
+		  demand => demand.skill === this.employeeForm.get('skill_3').value
 		  );
   console.warn(this.skill_3_MatchingDemands);
   }
@@ -147,7 +162,13 @@ onChangeSkill_2(): void{
 	  'skill_3': this.employeeForm.get('skill_3').value
 };
 }
-  
+  isLoading(){
+		  return this.loading;
+  }
+  isError(){
+	  return this.error;
+  }
+
 
 
 

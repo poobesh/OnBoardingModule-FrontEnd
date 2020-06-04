@@ -113,7 +113,7 @@
             <div class="col-lg-8">
               <input class="form-control" type="text" formControlName="p_pincode" >
               <div *ngIf="employeeForm.get('p_pincode').invalid && (employeeForm.get('p_pincode').dirty || employeeForm.get('p_pincode').touched)" class="alert alert-danger">
-                This field is required.
+                This field is required and should have 6 digits.
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@
             <div class="col-lg-8">
               <input class="form-control" type="text" formControlName="c_pincode" >
                 <div *ngIf="employeeForm.get('c_pincode').invalid && (employeeForm.get('c_pincode').dirty || employeeForm.get('c_pincode').touched)" class="alert alert-danger">
-                  This field is required.
+                  This field is required and should have 6 digits.
                 </div>
             </div>
           </div>
@@ -266,9 +266,9 @@
             
             <div class="col-lg-8">
               <select class="form-control" id="demand_id" formControlName="demand_id" required>
-            <option *ngFor="let skill of skill_1_MatchingDemands" [value]="skill.demandId">{{skill.demandId}}===> {{skill.demandSkill}}</option>
-            <option *ngFor="let skill of skill_2_MatchingDemands" [value]="skill.demandId">{{skill.demandId}}===> {{skill.demandSkill}}</option>
-            <option *ngFor="let skill of skill_3_MatchingDemands" [value]="skill.demandId">{{skill.demandId}}===> {{skill.demandSkill}}</option>
+            <option *ngFor="let skill of skill_1_MatchingDemands" [value]="skill.demand_id">{{skill.demand_id}}===> {{skill.skill}}</option>
+            <option *ngFor="let skill of skill_2_MatchingDemands" [value]="skill.demand_id">{{skill.demand_id}}===> {{skill.skill}}</option>
+            <option *ngFor="let skill of skill_3_MatchingDemands" [value]="skill.demand_id">{{skill.demand_id}}===> {{skill.skill}}</option>
             </select>
             <div *ngIf="employeeForm.get('skill_3').invalid && (employeeForm.get('skill_3').dirty || employeeForm.get('skill_3').touched)" class="alert alert-danger">
               This field is required.

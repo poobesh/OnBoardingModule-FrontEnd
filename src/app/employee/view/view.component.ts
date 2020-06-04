@@ -15,7 +15,8 @@ export class ViewComponent implements OnInit {
   public deleteId : any;
   public employee : Employee[] ;
   searchText:string;
-  
+  public loading:boolean= true;
+  public error:boolean = false;
   constructor(private authService: AuthService, private routes : Router , private service : EmployeeServices ) { }
 
   ngOnInit(): void {
@@ -48,7 +49,8 @@ export class ViewComponent implements OnInit {
 	  this.service.deleteEmployee(this.deleteId)
       .subscribe((data) => {
 	  console.log("Deleted Successfully");
-	  
+	  window.location.reload();
+	  alert("Reload Page ...");
 	  });
 	  
   }
@@ -64,10 +66,16 @@ export class ViewComponent implements OnInit {
       .subscribe((data) => {
 	  //console.log("GET Value : "+data["id"])
 	  this.employee = data;
+	  this.loading = false;
 	  });
   }
 
-
+  isLoading(){
+		  return this.loading;
+  }
+  isError(){
+	  return this.error;
+  }
 
 
 }

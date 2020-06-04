@@ -26,8 +26,8 @@ export interface Employee {
     "name"?:string,
     "demand_id": number,
     "bgc": boolean,
-    "c_pincode": number,
-    "p_pincode": number
+    "c_pincode": any,
+    "p_pincode": any
 
 }
 

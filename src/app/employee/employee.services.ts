@@ -9,8 +9,8 @@ import { IDemand } from './models/IDemand';
 export class EmployeeServices {
   constructor(private http: HttpClient) { }
 
-   employeeUrl = "http://localhost:3000/posts";
-   demandUrl = "http://localhost:3000/comments";
+   employeeUrl = "http://localhost:8080/employees";
+   demandUrl = "http://localhost:8080/demands";
 
     getEmployees(): Observable<Employee[]>{
 		console.log("Inside getEmployees in service ");
@@ -39,7 +39,7 @@ export class EmployeeServices {
 								  catchError(this.handleError)
 								);
    }
-   updateEmployee (employee: any,id : string) : Observable<Employee> {
+   updateEmployee (employee: any,id : string[]) : Observable<Employee> {
     return this.http.put<Employee>(this.employeeUrl.concat("/").concat(id),employee)
 						.pipe(
 								  catchError(this.handleError)
@@ -54,7 +54,21 @@ export class EmployeeServices {
 								);
 		}
   
-	private handleError(error: HttpErrorResponse){
-		return throwError("Something went wrong ...");
-	}
+	private handleError(error: HttpErrorResponse) {
+		
+	  if (error.error instanceof ErrorEvent) {
+		console.error('An error occurred:', error.error.message);
+	  } else {
+		  if(error.status == 200)
+			  {
+				  console.log("Operation Success");
+			  }
+			  else{
+				  
+				  console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+				  
+			  }
+	  }
+	  return throwError("");
+	};
 }

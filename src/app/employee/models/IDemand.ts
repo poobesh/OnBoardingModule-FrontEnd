@@ -1,5 +1,5 @@
 
 export interface IDemand {
-    demandId : number ,
-    demandSkill : string
+    demand_id : number ,
+    skill : string
 }

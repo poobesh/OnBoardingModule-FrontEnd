@@ -5,7 +5,10 @@
     <a (click)="signOut()"> Log Out</a>
 </div>
   
-<div class="main">
+  <div class="loader" *ngIf="isLoading()"></div>
+
+  
+<div class="main" *ngIf="!isLoading()">
   <div class="container">
   <h1>Edit Employee</h1>
   <hr>
@@ -22,14 +25,14 @@
   <div class="form-group">
           <label class="col-lg-3 control-label">Employee Id:</label>
           <div class="col-lg-8">
-            <input class="form-control" formControlName="id" type="number" disabled>
+            <input class="form-control" formControlName="id" type="number" >
            
           </div>
         </div>
     <div class="form-group">
           <label class="col-lg-3 control-label">First name:</label>
           <div class="col-lg-8">
-            <input class="form-control" formControlName="first_name" type="text" disabled >
+            <input class="form-control" formControlName="first_name" type="text"  >
             <div *ngIf="employeeForm.get('first_name').invalid && (employeeForm.get('first_name').dirty || employeeForm.get('first_name').touched)" class="alert alert-danger">
               First_name should be less than 15 letters .
              </div>
@@ -38,7 +41,7 @@
         <div class="form-group">
           <label class="col-lg-3 control-label">Last name:</label>
           <div class="col-lg-8">
-            <input class="form-control" formControlName="last_name" type="text" disabled >
+            <input class="form-control" formControlName="last_name" type="text"  >
             <div *ngIf="employeeForm.get('last_name').invalid && (employeeForm.get('last_name').dirty || employeeForm.get('last_name').touched)" class="alert alert-danger">
               Last_name should be less than 15 letters .
              </div>
@@ -47,7 +50,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Email:</label>
           <div class="col-lg-8">
-            <input class="form-control" formControlName="email" type="email" disabled >
+            <input class="form-control" formControlName="email" type="email"  >
             <div *ngIf="employeeForm.get('email').invalid && (employeeForm.get('email').dirty || employeeForm.get('email').touched)" class="alert alert-danger">
              Enter valid email and it should have less than 50 letters.  
              </div>
@@ -57,7 +60,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label" for="dob">DOB:</label>
           <div class="col-lg-8">
-            <input type="date" id="dob" formControlName="dob"   disabled>
+            <input type="date" id="dob" formControlName="dob"   >
             <div *ngIf="employeeForm.get('dob').invalid && (employeeForm.get('dob').dirty || employeeForm.get('dob').touched)" class="alert alert-danger">
               This field is required
             </div>
@@ -67,7 +70,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Blood Type :</label>
           <div class="col-lg-8">
-            <input class="form-control" formControlName="blood_type" type="text" disabled >
+            <input class="form-control" formControlName="blood_type" type="text"  >
             <div *ngIf="employeeForm.get('blood_type').invalid && (employeeForm.get('blood_type').dirty || employeeForm.get('blood_type').touched)" class="alert alert-danger">
               Required and less than 5 letters.
             </div>
@@ -88,26 +91,18 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Permanent Address :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="permanent_address" disabled >
+            <input class="form-control" type="text" formControlName="permanent_address"  >
             <div *ngIf="employeeForm.get('permanent_address').invalid && (employeeForm.get('permanent_address').dirty || employeeForm.get('permanent_address').touched)" class="alert alert-danger">
               This field is required.
             </div>
           </div>
         </div>
     
-    <div class="form-group">
-          <label class="col-lg-3 control-label">Pincode :</label>
-          <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="p_pincode" disabled >
-            <div *ngIf="employeeForm.get('p_pincode').invalid && (employeeForm.get('p_pincode').dirty || employeeForm.get('p_pincode').touched)" class="alert alert-danger">
-              This field is required.
-            </div>
-          </div>
-        </div>
+    
     <div class="form-group">
           <label class="col-lg-3 control-label">Pan Number :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="pan_number" disabled >
+            <input class="form-control" type="text" formControlName="pan_number"  >
             <div *ngIf="employeeForm.get('pan_number').invalid && (employeeForm.get('pan_number').dirty || employeeForm.get('pan_number').touched)" class="alert alert-danger">
               This field is required and should have 10 letters.
             </div>
@@ -155,7 +150,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Experience in years :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="number" formControlName="experience" >
+            <input class="form-control" type="number" formControlName="experience" (change)="onChange()" >
             <div *ngIf="employeeForm.get('experience').invalid && (employeeForm.get('experience').dirty || employeeForm.get('experience').touched)" class="alert alert-danger">
               This field should be greater than or equal to 0 .
       </div>
@@ -186,7 +181,7 @@
           <div class="col-lg-8">
             <input class="form-control" type="text" formControlName="c_pincode" >
               <div *ngIf="employeeForm.get('c_pincode').invalid && (employeeForm.get('c_pincode').dirty || employeeForm.get('c_pincode').touched)" class="alert alert-danger">
-                This field is required.
+                This field is required and should have 6 digits.
               </div>
           </div>
         </div>
@@ -214,7 +209,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Bank Account Number :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="bank_ac_no" disabled>
+            <input class="form-control" type="text" formControlName="bank_ac_no" >
             <div *ngIf="employeeForm.get('bank_ac_no').invalid && (employeeForm.get('bank_ac_no').dirty || employeeForm.get('bank_ac_no').touched)" class="alert alert-danger">
               This field is required and digits should have 8 to 15 digits.
             </div>
@@ -223,7 +218,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">IFSC Code :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="ifsc_code" disabled>
+            <input class="form-control" type="text" formControlName="ifsc_code" >
             <div *ngIf="employeeForm.get('ifsc_code').invalid && (employeeForm.get('ifsc_code').dirty || employeeForm.get('ifsc_code').touched)" class="alert alert-danger">
               Should contain 10 Characters.
             </div>
@@ -232,7 +227,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Branch :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="branch" disabled>
+            <input class="form-control" type="text" formControlName="branch" >
             <div *ngIf="employeeForm.get('branch').invalid && (employeeForm.get('branch').dirty || employeeForm.get('branch').touched)" class="alert alert-danger">
               Enter valid branch name.
             </div>
@@ -241,7 +236,7 @@
     <div class="form-group">
           <label class="col-lg-3 control-label">Name :</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" formControlName="name" disabled>
+            <input class="form-control" type="text" formControlName="name" >
             <div *ngIf="employeeForm.get('name').invalid && (employeeForm.get('name').dirty || employeeForm.get('name').touched)" class="alert alert-danger">
               Enter valid name should be less than 30 letters.
             </div>
@@ -252,9 +247,9 @@
           
           <div class="col-lg-8">
             <select class="form-control" id="demand_id" formControlName="demand_id" required>
-          <option *ngFor="let skill of skill_1_MatchingDemands" [value]="skill.demandId">{{skill.demandId}}===> {{skill.demandSkill}}</option>
-          <option *ngFor="let skill of skill_2_MatchingDemands" [value]="skill.demandId">{{skill.demandId}}===> {{skill.demandSkill}}</option>
-          <option *ngFor="let skill of skill_3_MatchingDemands" [value]="skill.demandId">{{skill.demandId}}===> {{skill.demandSkill}}</option>
+          <option *ngFor="let skill of skill_1_MatchingDemands" [value]="skill.demand_id">{{skill.demand_id}}===> {{skill.skill}}</option>
+          <option *ngFor="let skill of skill_2_MatchingDemands" [value]="skill.demand_id">{{skill.demand_id}}===> {{skill.skill}}</option>
+          <option *ngFor="let skill of skill_3_MatchingDemands" [value]="skill.demand_id">{{skill.demand_id}}===> {{skill.skill}}</option>
           </select>
           <div *ngIf="employeeForm.get('skill_3').invalid && (employeeForm.get('skill_3').dirty || employeeForm.get('skill_3').touched)" class="alert alert-danger">
             This field is required.
