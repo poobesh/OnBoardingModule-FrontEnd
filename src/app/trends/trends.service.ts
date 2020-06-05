@@ -19,9 +19,9 @@ export class TrendsServices {
 								  catchError(this.handleError)
 								);
       }
-	  getCompanies(): Observable<string>{
+	  getCompanies(): Observable<string[]>{
 		  
-		  return this.http.get<string>(this.url)
+		  return this.http.get<string[]>(this.url)
 							.pipe(
 								catchError(this.handleError)
 								);

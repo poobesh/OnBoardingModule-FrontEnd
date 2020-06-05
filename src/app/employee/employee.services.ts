@@ -39,7 +39,7 @@ export class EmployeeServices {
 								  catchError(this.handleError)
 								);
    }
-   updateEmployee (employee: any,id : string[]) : Observable<Employee> {
+   updateEmployee (employee: any,id : string) : Observable<Employee> {
     return this.http.put<Employee>(this.employeeUrl.concat("/").concat(id),employee)
 						.pipe(
 								  catchError(this.handleError)
