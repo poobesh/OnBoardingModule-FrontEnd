@@ -17,7 +17,7 @@ export class TrendsComponent implements OnInit {
 	
 	lineChartData: ChartDataSets[] = [{ data: [], label: 'Required Employees count' }, ];
 
-	lineChartLabels: Label[];
+	lineChartLabels: Label[] ;
 
 	lineChartOptions = {
 		responsive: true,
@@ -38,9 +38,11 @@ export class TrendsComponent implements OnInit {
 		   dropDownText:new FormControl()
 		});
 	  
+
 	  companies : string[];
 	  employeeCount : any[];
-	  year : any[];
+	  year : string[];
+	  
 
   constructor(private authService: AuthService, private routes: Router , private service : TrendsServices) { }
 
@@ -59,17 +61,17 @@ export class TrendsComponent implements OnInit {
 
   }
   viewData(){
-	  
-	  this.employeeCount = [];
 	  this.year = [];
+	  this.lineChartLabels=[];
 	  this.service.getTrendDatas(this.myGroup.get('dropDownText').value).subscribe((data)=>{
-		this.lineChartData[0].data = data.map(a => a.required_employee_count);
-		this.lineChartLabels = data.map(a => a.year);
-		
-	  
+	  this.lineChartData[0].data = data.map(a => a.required_employee_count);
+	  this.year.push(data.map(a=>a.year).toString());
+	  console.log("this year"+this.year[0]);
+	  this.lineChartLabels = this.year[0].split(',');
 	  });
 	  
 	  
+	 	  
   }
   isLoading(){
 		  return this.loading;
