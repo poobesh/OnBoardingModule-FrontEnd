@@ -16,20 +16,20 @@ import { IDemand } from '../../models/IDemand';
 })
 export class EditComponent implements OnInit {
 
-   employeeId : string;
+   public employeeId : string;
    public skills=["Angular","Java","C/c++","Python","SQL"];
    public skill_1_MatchingDemands : IDemand[];
 	public skill_2_MatchingDemands : IDemand[];
 	public skill_3_MatchingDemands : IDemand[]
-	private demandSkills : IDemand[];
+	public demandSkills : IDemand[];
 	public employeeForm:FormGroup;
-   public name = "Poobesh";
+   public name = "";
    
    public isFormInValid:boolean = true;
    
    private employee:any;
-   private loading:boolean= true;
-   private error:boolean = true;
+   public loading:boolean= true;
+   public error:boolean = true;
 
 
   constructor(private authService: AuthService, private routes : Router , private activatedRoute: ActivatedRoute , private service : EmployeeServices , private fb : FormBuilder) { 
@@ -86,8 +86,8 @@ export class EditComponent implements OnInit {
 	
   }
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-	console.log("INside submit");
+    
+	
 	console.warn(this.employeeForm);
 	this.setEmployee();
 	console.log("Employee + "+ this.employee);

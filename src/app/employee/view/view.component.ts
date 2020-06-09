@@ -49,7 +49,7 @@ export class ViewComponent implements OnInit {
 	  this.service.deleteEmployee(this.deleteId)
       .subscribe((data) => {
 	  console.log("Deleted Successfully");
-	  window.location.reload();
+	 // window.location.reload();
 	  alert("Reload Page ...");
 	  });
 	  
@@ -64,7 +64,7 @@ export class ViewComponent implements OnInit {
   showEmployee() {
     this.service.getEmployees()
       .subscribe((data) => {
-	  //console.log("GET Value : "+data["id"])
+	  
 	  this.employee = data;
 	  this.loading = false;
 	  });

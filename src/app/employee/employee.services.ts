@@ -12,9 +12,17 @@ export class EmployeeServices {
    employeeUrl = "http://localhost:8080/employees";
    demandUrl = "http://localhost:8080/demands";
 
+
     getEmployees(): Observable<Employee[]>{
 		console.log("Inside getEmployees in service ");
         return this.http.get<Employee[]>(this.employeeUrl)
+							.pipe(
+								  catchError(this.handleError)
+								);
+    }
+	getEmployeesIds(): Observable<number[]>{
+		console.log("Inside getEmployees in service ");
+        return this.http.get<number[]>(this.employeeUrl.concat("/ids"))
 							.pipe(
 								  catchError(this.handleError)
 								);
@@ -64,7 +72,7 @@ export class EmployeeServices {
 				  console.log("Operation Success");
 			  }
 			  else{
-				  
+				  alert("Error Happened Please try again ...");
 				  console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
 				  
 			  }
