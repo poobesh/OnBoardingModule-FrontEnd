@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'angularx-social-login';
 import { Router } from '@angular/router';
-import { FormsModule ,FormGroup,  Validators , FormBuilder , FormControl} from '@angular/forms';
+import { FormsModule ,FormGroup,  Validators , FormBuilder , FormControl, ValidatorFn} from '@angular/forms';
 import { Employee } from '../employee';
 import { EmployeeServices } from '../employee.services';
 import { IDemand } from '../models/IDemand';
@@ -12,27 +12,28 @@ import { IDemand } from '../models/IDemand';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
+
 export class CreateComponent implements OnInit {
 	
 	public skills=["Angular","Java","C/c++","Python","SQL"];
 	public skill_1_MatchingDemands : IDemand[];
 	public skill_2_MatchingDemands : IDemand[];
 	public skill_3_MatchingDemands : IDemand[]
-	private demandSkills : IDemand[];
+	public demandSkills : IDemand[];
 	public employeeForm:FormGroup;
-	public name = "Poobesh";
-	private Ids : number[]=[];
+	public name = "";
+	public Ids : number[]=[];
 	public isFormInValid:boolean = true;
     private employees:Employee[];
-	private employee:any;
-	
+	public employee:any;
+    public dobValidator : boolean = false;
 	
   constructor(private authService: AuthService, private routes : Router, private fb : FormBuilder , private service : EmployeeServices) { }
 
   ngOnInit(): void {
 	  
 	  this.employeeForm = this.fb.group({
-		id: [,[Validators.required,Validators.pattern('[0-9]*')]],
+		id: [,[Validators.required,Validators.min(0)]],
 		email:['',[Validators.required, Validators.email , Validators.maxLength(50)]] ,
 		version: [0],
 		first_name: ['',[Validators.required,Validators.maxLength(15)]],
@@ -55,14 +56,15 @@ export class CreateComponent implements OnInit {
 		branch:['',[Validators.required,Validators.maxLength(30)]],
 		name:['',[Validators.required,Validators.maxLength(30)]],
 		demand_id: [],
-		bgc: ['',Validators.required],
+		bgc: ['',Validators.required], 
 		c_pincode: ['',[Validators.required, Validators.pattern('[0-9]\\d{5}')]],
 		p_pincode:['',[Validators.required, Validators.pattern('[0-9]\\d{5}')]] 
    });
-   this.service.getEmployees()
+   this.service.getEmployeesIds()
       .subscribe((data) => {
+		  
 	  //console.log("GET Value : "+data["id"])
-	  this.Ids = data.map(({ id }) => id);
+	  this.Ids = data;
 	  });
 	this.service.getDemands()
 	  			.subscribe((demand) => {
@@ -71,6 +73,8 @@ export class CreateComponent implements OnInit {
 
 		console.warn(this.Ids);
   }
+  
+  
 
   signOut(): void {
     localStorage.removeItem('user_email');
@@ -79,7 +83,7 @@ export class CreateComponent implements OnInit {
     this.routes.navigate(['logout']);
 
   }
-  isIdVaild(){
+  isIdValid(){
 	  console.log("Emp ID : "+this.employeeForm.get('id').value);
 	  if(this.Ids.includes(this.employeeForm.get('id').value))
 	  {
@@ -91,8 +95,18 @@ export class CreateComponent implements OnInit {
 	  }
   }
   
-  onChange(){
+  onChangeDob(){
+	  //if(this.employeeForm.get('dob').value != null)
+	  {
+		  var given_year = new Date(this.employeeForm.get('dob').value).getFullYear();
+		  var current_year = new Date().getFullYear();
+		  if(given_year < current_year)
+			  this.dobValidator = true;
+		  else
+			  this.dobValidator = false;
+	  }		  
 	  console.warn(this.employeeForm);
+	  console.log("GIven Year : "+this.employeeForm.get('dob').value);
   }
   
   onChangeSkill_1(): void{

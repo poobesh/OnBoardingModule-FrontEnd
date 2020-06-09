@@ -10,21 +10,20 @@
     <h1>Create Employee</h1>
   	<hr>
 	<div class="row">
-      <!-- left column -->
-      
-      
-      <!-- edit form column -->
       <div class="col-md-9 personal-info">
         
         <h3>Personal info</h3>
         
-        <form class="form-horizontal" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" >   <!-- Employee ID -->
+        <form class="form-horizontal" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" >   
 		<div class="form-group">
             <label class="col-lg-3 control-label">Employee Id:</label>
             <div class="col-lg-8">
-              <input class="form-control" formControlName="id" (change)="isIdVaild()" type="number" >
+              <input class="form-control" formControlName="id" (change)="isIdValid()" type="number" >
 	          <div *ngIf="isFormInValid && (employeeForm.get('id').dirty || employeeForm.get('id').touched)" class="alert alert-danger">
                Id is already taken please choose different id .
+               </div> 
+			   <div *ngIf="employeeForm.get('id').invalid && (employeeForm.get('id').dirty || employeeForm.get('id').touched)" class="alert alert-danger">
+               Id cannot be Negative .
                </div> 
             </div>
           </div>
@@ -59,10 +58,14 @@
 		  <div class="form-group">
             <label class="col-lg-3 control-label" for="dob">DOB:</label>
             <div class="col-lg-8">
-              <input type="date" id="dob" formControlName="dob"  (change)="onChange()" >
+              <input type="date" id="dob" formControlName="dob"  (change)="onChangeDob()" >
               <div *ngIf="employeeForm.get('dob').invalid && (employeeForm.get('dob').dirty || employeeForm.get('dob').touched)" class="alert alert-danger">
                 This field is required
               </div>
+              <div *ngIf="!dobValidator && (employeeForm.get('dob').dirty || employeeForm.get('dob').touched)" class="alert alert-danger">
+                Enter a valid DOB.
+              </div>
+              
             </div>
           </div>
 		  
