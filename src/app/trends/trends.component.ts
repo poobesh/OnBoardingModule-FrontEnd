@@ -3,10 +3,8 @@ import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { AuthService } from 'angularx-social-login';
 import { Router } from '@angular/router';
-import { FormControl, FormsModule ,FormGroup,} from '@angular/forms';
-import { ITrendData } from './ITrendData';
-import { TrendsServices } from './trends.service';
-import {map} from 'rxjs/operators';
+import { FormControl ,FormGroup,} from '@angular/forms';
+import { TrendsServices } from './services/trends.service';
 
 @Component({
   selector: 'app-trends',
@@ -53,6 +51,7 @@ export class TrendsComponent implements OnInit {
 		  this.loading = false;
 	  });
   }
+
   signOut(): void {
     localStorage.removeItem('user_email');
     this.authService.signOut();
@@ -60,6 +59,7 @@ export class TrendsComponent implements OnInit {
     this.routes.navigate(['logout']);
 
   }
+
   viewData(){
 	  this.year = [];
 	  this.lineChartLabels=[];
@@ -68,11 +68,10 @@ export class TrendsComponent implements OnInit {
 	  this.year.push(data.map(a=>a.year).toString());
 	  console.log("this year"+this.year[0]);
 	  this.lineChartLabels = this.year[0].split(',');
-	  });
-	  
-	  
+	  });	  
 	 	  
   }
+
   isLoading(){
 		  return this.loading;
   }

@@ -3,8 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewComponent } from './view/view.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './view/edit/edit.component';
-import  { LogoutComponent } from '../logout/logout.component';
-import { AuthGuard } from '../auth-guard';
+import { AuthGuard } from '../routing/auth-guard';
 
 const routes: Routes = [
   {path:'',component:ViewComponent,canActivate: [AuthGuard]},

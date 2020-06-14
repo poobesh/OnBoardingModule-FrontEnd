@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TrendsComponent } from './trends.component';
 import { AuthService,GoogleLoginProvider,AuthServiceConfig} from 'angularx-social-login';
 import { RouterTestingModule} from '@angular/router/testing';
-import { TrendsServices } from './trends.service';
+import { TrendsServices } from './services/trends.service';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {ITrendData} from './ITrendData';
+import {ITrendData} from './models/ITrendData';
 
 const config =  new AuthServiceConfig([
   {

@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ViewComponent } from './view.component';
 import { AuthService,GoogleLoginProvider,AuthServiceConfig} from 'angularx-social-login';
 import { RouterTestingModule} from '@angular/router/testing';
-import { EmployeeServices} from '../employee.services';
+import { EmployeeServices} from '../services/employee.services';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {Employee} from '../Employee';
+import {Employee} from '../models/employee';
 
 const config =  new AuthServiceConfig([
   {

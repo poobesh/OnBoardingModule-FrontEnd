@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'angularx-social-login';
 import { Router } from '@angular/router';
-import { EmployeeServices } from '../employee.services';
-import { Employee } from '../employee';
+import { EmployeeServices } from '../services/employee.services';
+import { Employee } from '../models/employee';
 
 @Component({
   selector: 'app-view',
@@ -28,6 +28,7 @@ export class ViewComponent implements OnInit {
 	  }
     
   }
+
   signOut(): void {
     localStorage.removeItem('user_email');
     this.authService.signOut();
@@ -48,8 +49,9 @@ export class ViewComponent implements OnInit {
   onDelete(){
 	  this.service.deleteEmployee(this.deleteId)
       .subscribe((data) => {
-	  console.log("Deleted Successfully");
-	 // window.location.reload();
+    console.log("Deleted Successfully");
+    // for testing comment the below line
+	  window.location.reload();
 	  alert("Reload Page ...");
 	  });
 	  

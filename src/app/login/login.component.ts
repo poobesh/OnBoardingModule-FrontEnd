@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 import { Router } from '@angular/router';
+import { HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   public loggedIn:boolean =false;
   
 
-  constructor( private route : Router ,private authService: AuthService ) {
+  constructor( private route : Router ,private authService: AuthService, private httpClient:HttpClient ) {
     	  }
 
   ngOnInit(): void {
@@ -33,8 +34,26 @@ export class LoginComponent implements OnInit {
     
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user) =>{
     this.user = user;
-    this.loggedIn=(user != null);
-    localStorage.setItem('user_email',user.email)
+    return this.httpClient.post<any>('http://localhost:8080/authenticate',
+    {
+      "username":user.email,
+      "password":"password"
+    }
+    ).subscribe(
+          userData => {
+            localStorage.setItem('user_email',user.email);
+            let tokenStr= userData.token;
+            localStorage.setItem('token', tokenStr);
+            this.loggedIn=(user != null);
+			console.log('INSIDE LOGIN : '+localStorage.getItem('token'));
+          }
+       ,() => {
+		   this.authService.signOut();
+		   this.loggedIn = false;
+		   alert("You are not authorized for login ...");}
+      );
+    
+   
     
     });
   }

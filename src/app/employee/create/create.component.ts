@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'angularx-social-login';
 import { Router } from '@angular/router';
-import { FormsModule ,FormGroup,  Validators , FormBuilder , FormControl, ValidatorFn} from '@angular/forms';
-import { Employee } from '../employee';
-import { EmployeeServices } from '../employee.services';
+import { FormGroup,  Validators , FormBuilder } from '@angular/forms';
+import { Employee } from '../models/employee';
+import { EmployeeServices } from '../services/employee.services';
 import { IDemand } from '../models/IDemand';
 
 @Component({
@@ -60,6 +60,7 @@ export class CreateComponent implements OnInit {
 		c_pincode: ['',[Validators.required, Validators.pattern('[0-9]\\d{5}')]],
 		p_pincode:['',[Validators.required, Validators.pattern('[0-9]\\d{5}')]] 
    });
+
    this.service.getEmployeesIds()
       .subscribe((data) => {
 		  
@@ -74,15 +75,13 @@ export class CreateComponent implements OnInit {
 		console.warn(this.Ids);
   }
   
-  
-
   signOut(): void {
     localStorage.removeItem('user_email');
     this.authService.signOut();
 	console.log(localStorage.getItem('user_email'));
     this.routes.navigate(['logout']);
-
   }
+
   isIdValid(){
 	  console.log("Emp ID : "+this.employeeForm.get('id').value);
 	  if(this.Ids.includes(this.employeeForm.get('id').value))
@@ -96,17 +95,15 @@ export class CreateComponent implements OnInit {
   }
   
   onChangeDob(){
-	  //if(this.employeeForm.get('dob').value != null)
-	  {
-		  var given_year = new Date(this.employeeForm.get('dob').value).getFullYear();
-		  var current_year = new Date().getFullYear();
-		  if(given_year < current_year)
-			  this.dobValidator = true;
-		  else
-			  this.dobValidator = false;
-	  }		  
+	  
+		var given_year = new Date(this.employeeForm.get('dob').value).getFullYear();
+		var current_year = new Date().getFullYear();
+		if(given_year < current_year)
+			this.dobValidator = true;
+		else
+			this.dobValidator = false;		  
 	  console.warn(this.employeeForm);
-	  console.log("GIven Year : "+this.employeeForm.get('dob').value);
+	 
   }
   
   onChangeSkill_1(): void{
@@ -115,12 +112,14 @@ export class CreateComponent implements OnInit {
 		  );
     console.warn(this.skill_1_MatchingDemands);
   }
+
   onChangeSkill_2(): void{
 		this.skill_2_MatchingDemands = this.demandSkills.filter(
 			demand => demand.skill === this.employeeForm.get('skill_2').value
 			);
 	console.warn(this.skill_2_MatchingDemands);
 	}
+	
 	onChangeSkill_3(): void{
 		this.skill_3_MatchingDemands = this.demandSkills.filter(
 			demand => demand.skill === this.employeeForm.get('skill_3').value

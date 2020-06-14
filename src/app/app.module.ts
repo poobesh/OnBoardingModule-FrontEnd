@@ -7,16 +7,17 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { RouterModule} from '@angular/router';
-import {  routes } from "./app-routing.module";
+import {  routes } from "./routing/app-routing.module";
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from "angularx-social-login";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutComponent } from './logout/logout.component';
-import { EmployeeServices } from './employee/employee.services';
+import { EmployeeServices } from './employee/services/employee.services';
 import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { TrendsComponent } from './trends/trends.component';
 import { ChartsModule } from 'ng2-charts';
-import { TrendsServices } from './trends/trends.service';
-
+import { TrendsServices } from './trends/services/trends.service';
+import { TokenInterceptor } from './token.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 let config = new AuthServiceConfig([
   {
@@ -51,8 +52,15 @@ export function provideConfig(){
       provide:AuthServiceConfig,
       useFactory: provideConfig
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+
+    },
 	  EmployeeServices,
-	  TrendsServices
+    TrendsServices,
+    
   ],
   bootstrap: [AppComponent]
 })

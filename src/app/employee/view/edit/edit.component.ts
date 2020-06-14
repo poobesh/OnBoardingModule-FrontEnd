@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'angularx-social-login';
 import { Router,ActivatedRoute } from '@angular/router';
-import { FormGroup,  Validators , FormBuilder , FormControl} from '@angular/forms';
-import { EmployeeServices } from '../../employee.services';
-import { Employee } from '../../employee';
+import { FormGroup,  Validators , FormBuilder } from '@angular/forms';
+import { EmployeeServices } from '../../services/employee.services';
 import { IDemand } from '../../models/IDemand';
 
 
@@ -73,9 +72,9 @@ export class EditComponent implements OnInit {
 		
 		
 		
-   });
+        });
 	  }
-	  );
+);
 	  
 	this.service.getDemands()
 	  			.subscribe((demand) => {
@@ -85,19 +84,20 @@ export class EditComponent implements OnInit {
 	    
 	
   }
+
+
   onSubmit() {
-    
-	
+
 	console.warn(this.employeeForm);
 	this.setEmployee();
-	console.log("Employee + "+ this.employee);
-	
+	//console.log("Employee + "+ this.employee);
 	this.service
 		.updateEmployee(this.employee,this.employeeId)
 		.subscribe(hero => {console.log("Updated Employee + "+ this.employee);alert("Successfully Added ");});
 		
 		this.routes.navigate(['home']);
   }
+
   signOut(): void {
     localStorage.removeItem('user_email');
     this.authService.signOut();
@@ -105,6 +105,7 @@ export class EditComponent implements OnInit {
     this.routes.navigate(['logout']);
 
   }
+  
   onChange(): void{
     console.warn(this.employeeForm);
   }
@@ -115,22 +116,20 @@ export class EditComponent implements OnInit {
 		);
   console.warn(this.skill_1_MatchingDemands);
 }
+
 onChangeSkill_2(): void{
 	  this.skill_2_MatchingDemands = this.demandSkills.filter(
 		  demand => demand.skill === this.employeeForm.get('skill_2').value
 		  );
   console.warn(this.skill_2_MatchingDemands);
   }
+
   onChangeSkill_3(): void{
 	  this.skill_3_MatchingDemands = this.demandSkills.filter(
 		  demand => demand.skill === this.employeeForm.get('skill_3').value
 		  );
   console.warn(this.skill_3_MatchingDemands);
   }
-
-
-
-
 
   setEmployee(){
 	this.employee = {
@@ -165,11 +164,9 @@ onChangeSkill_2(): void{
   isLoading(){
 		  return this.loading;
   }
+
   isError(){
 	  return this.error;
   }
-
-
-
-
+  
 }

@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
   signOut(): void {
     localStorage.removeItem('user_email');
     this.authService.signOut();

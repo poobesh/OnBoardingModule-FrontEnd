@@ -2,8 +2,6 @@ import { async, TestBed } from '@angular/core/testing';
 
 import { TrendsServices } from './trends.service';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {ITrendData} from './ITrendData';
-import {map} from 'rxjs/operators';
 
 describe('TrendsServices', () => {
   let service: TrendsServices;

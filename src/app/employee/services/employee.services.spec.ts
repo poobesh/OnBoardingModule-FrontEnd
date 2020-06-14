@@ -2,9 +2,9 @@ import { async, TestBed } from '@angular/core/testing';
 
 import { EmployeeServices } from './employee.services';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {Employee} from './Employee';
+import {Employee} from '../models/employee';
 import {map} from 'rxjs/operators';
-import { IDemand} from './models/IDemand';
+import { IDemand} from '../models/IDemand';
 describe('EmployeeServices', () => {
   let service: EmployeeServices;
   let httpMock: HttpTestingController;
