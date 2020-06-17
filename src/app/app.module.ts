@@ -18,6 +18,7 @@ import { ChartsModule } from 'ng2-charts';
 import { TrendsServices } from './trends/services/trends.service';
 import { TokenInterceptor } from './token.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LogsComponent } from './logs/logs.component';
 
 let config = new AuthServiceConfig([
   {
@@ -35,7 +36,8 @@ export function provideConfig(){
     LoginComponent,
     HomeComponent,
     LogoutComponent,
-    TrendsComponent
+    TrendsComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule,
